@@ -18,11 +18,11 @@ public class KafkaMessageProducer {
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
-    @Value(value = "${message.topic.name:profesorp}")
+    @Value(value = "${kafka.topic.name}")
     private String topicName;
 
     public void sendMessage(String topic, String message) {
-        if (topic==null || topic.trim().equals(""))
+        if (topic == null || topic.trim().equals(""))
             topic=topicName;
         CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send(topic, message);
         future.whenComplete((result, ex) ->  {
